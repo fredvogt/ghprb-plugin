@@ -265,7 +265,7 @@ public class GhprbRepositoryTest {
         verifyNoMoreInteractions(gt);
 
         /** GH PR verifications */
-        verify(builds, times(1)).build(any(GhprbPullRequest.class), any(GHUser.class), any(String.class));
+        verify(builds, times(1)).build(any(GhprbPullRequest.class), any(GHUser.class), any(String.class), any(String.class));
         verify(ghRepository, times(1)).getPullRequests(OPEN); // Call to Github API
         verify(ghRepository, times(1)).createCommitStatus(eq("head sha"), eq(PENDING), eq(""), eq(msg), eq("default")); // Call to Github API
         verify(ghRepository, times(1)).getPullRequest(Mockito.anyInt());
@@ -349,7 +349,7 @@ public class GhprbRepositoryTest {
         verifyNoMoreInteractions(gt);
 
         /** GH PR verifications */
-        verify(builds, times(1)).build(any(GhprbPullRequest.class), any(GHUser.class), any(String.class));
+        verify(builds, times(1)).build(any(GhprbPullRequest.class), any(GHUser.class), any(String.class), any(String.class));
         verify(ghRepository, times(2)).getPullRequests(eq(OPEN)); // Call to Github API
         verify(ghRepository, times(1)).createCommitStatus(eq("head sha"), eq(PENDING), eq(""), eq(msg), eq("default")); // Call to Github API
         verify(ghRepository, times(1)).getPullRequest(Mockito.anyInt());
@@ -442,7 +442,7 @@ public class GhprbRepositoryTest {
         verifyNoMoreInteractions(gt);
 
         /** GH PR verifications */
-        verify(builds, times(2)).build(any(GhprbPullRequest.class), any(GHUser.class), any(String.class));
+        verify(builds, times(2)).build(any(GhprbPullRequest.class), any(GHUser.class), any(String.class), any(String.class));
         verifyNoMoreInteractions(builds);
         
         verify(ghRepository, times(2)).getPullRequests(eq(OPEN)); // Call to Github API
@@ -487,7 +487,7 @@ public class GhprbRepositoryTest {
         verify(ghUser, times(2)).getName();
         verifyNoMoreInteractions(ghUser);
 
-        verify(builds, times(2)).build(any(GhprbPullRequest.class), any(GHUser.class), any(String.class));
+        verify(builds, times(2)).build(any(GhprbPullRequest.class), any(GHUser.class), any(String.class), any(String.class));
         verifyNoMoreInteractions(builds);
     }
 

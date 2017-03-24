@@ -8,9 +8,9 @@
         <version>1.596.1</version>
     </parent>
 
-    <artifactId>ghprb</artifactId>
+    <artifactId>ghprb-closer</artifactId>
     <name>GitHub Pull Request Builder</name>
-    <version>1.33.1</version>
+    <version>1.33.1-closer</version>
     <packaging>hpi</packaging>
 
     <url>https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin</url>

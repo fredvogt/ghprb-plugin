@@ -19,6 +19,7 @@ public class GhprbCause extends Cause {
     private final String sourceBranch;
     private final String authorEmail;
     private final String title;
+    private final String action;
     private final URL url;
     private final GHUser triggerSender;
     private final String commentBody;
@@ -35,7 +36,8 @@ public class GhprbCause extends Cause {
             String targetBranch, 
             String sourceBranch, 
             String authorEmail, 
-            String title, 
+            String title,
+            String action,
             URL url, 
             GHUser triggerSender, 
             String commentBody,
@@ -53,6 +55,7 @@ public class GhprbCause extends Cause {
         this.sourceBranch = sourceBranch;
         this.authorEmail = authorEmail;
         this.title = title;
+        this.action = action;
         this.url = url;
         this.description = description;
 
@@ -93,6 +96,8 @@ public class GhprbCause extends Cause {
     public String getAuthorEmail() {
         return authorEmail;
     }
+
+    public String getAction() { return action; }
 
     public URL getUrl() {
         return url;

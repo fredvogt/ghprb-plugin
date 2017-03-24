@@ -71,7 +71,7 @@ public class GhprbPullRequestTest {
         given(helper.isWhitelisted(ghUser)).willReturn(true);
         given(helper.getBuilds()).willReturn(builds);
         
-        doNothing().when(builds).build(any(GhprbPullRequest.class), any(GHUser.class), anyString());
+        doNothing().when(builds).build(any(GhprbPullRequest.class), any(GHUser.class), anyString(), anyString());
         
         // Mocks for GhprbRepository
         given(repo.getName()).willReturn("repoName");

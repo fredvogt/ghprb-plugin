@@ -41,7 +41,7 @@ public class GhprbBuilds {
         this.repo = repo;
     }
 
-    public void build(GhprbPullRequest pr, GHUser triggerSender, String commentBody) {
+    public void build(GhprbPullRequest pr, GHUser triggerSender, String commentBody, String action) {
         
         URL url = null;
         GHUser prAuthor = null;
@@ -59,7 +59,8 @@ public class GhprbBuilds {
                 pr.getTarget(), 
                 pr.getSource(), 
                 pr.getAuthorEmail(), 
-                pr.getTitle(), 
+                pr.getTitle(),
+                action,
                 url, 
                 triggerSender, 
                 commentBody,

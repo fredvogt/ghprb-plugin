@@ -153,7 +153,7 @@ public class GhprbRepository implements Saveable{
                     return;
                 }
             }
-            check(pr);
+            check(pr, "");
             closedPulls.remove(pr.getNumber());
         }
         
@@ -169,11 +169,11 @@ public class GhprbRepository implements Saveable{
         }
     }
 
-    private void check(GHPullRequest pr) {
+    private void check(GHPullRequest pr, String action) {
         int number = pr.getNumber();
         try {
             GhprbPullRequest pull = getPullRequest(null, number);
-            pull.check(pr, false);
+            pull.check(pr, false, action);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Unable to check pr: " + number, e);
         }
@@ -371,29 +371,30 @@ public class GhprbRepository implements Saveable{
     }
 
     void onPullRequestHook(PullRequest pr) throws IOException {
+        if (!trigger.isActive()) {
+            logger.log(Level.FINE, "Not processing Pull request since the build is disabled");
+            return;
+        }
+
         GHPullRequest ghpr = pr.getPullRequest();
         int number = pr.getNumber();
         String action = pr.getAction();
 
-        boolean doSave = false;
+        if (!("closed".equals(action) || "edited".equals(action) || "opened".equals(action) || "reopened".equals(action) || "synchronize".equals(action))){
+            logger.log(Level.WARNING, "Unknown Pull Request hook action: {0}", action);
+            return;
+        }
+
         if ("closed".equals(action)) {
             pullRequests.remove(number);
-            doSave = true;
-        } else if (!trigger.isActive()) {
-            logger.log(Level.FINE, "Not processing Pull request since the build is disabled");
-        } else if ("edited".equals(action) || "opened".equals(action) || "reopened".equals(action) || "synchronize".equals(action)) {
-            GhprbPullRequest pull = getPullRequest(ghpr, number);
-            pull.check(ghpr, true);
-            doSave = true;
-        } else {
-            logger.log(Level.WARNING, "Unknown Pull Request hook action: {0}", action);
         }
-        if (doSave) {
-            try {
-                this.save();
-            } catch (IOException e) {
-               logger.log(Level.SEVERE, "Unable to save repository!", e);
-            }
+
+        GhprbPullRequest pull = getPullRequest(ghpr, number);
+        pull.check(ghpr, true, action);
+        try {
+            this.save();
+        } catch (IOException e) {
+           logger.log(Level.SEVERE, "Unable to save repository!", e);
         }
     }
     

@@ -28,6 +28,7 @@ public class GhprbAdditionalParameterEnvironmentContributor extends EnvironmentC
                                                       "ghprbPullTitle",
                                                       "ghprbPullLink",
                                                       "ghprbPullLongDescription",
+                                                      "ghprbPullAction",
                                                       "ghprbTargetBranch",
                                                       "ghprbSourceBranch",
                                                       "ghprbCommentBody",

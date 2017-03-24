@@ -157,7 +157,7 @@ public class GhprbPullRequest {
      * @param ghpr the pull request from github
      * @param isWebhook whether this is from a webhook or not
      */
-    public void check(GHPullRequest ghpr, boolean isWebhook) {
+    public void check(GHPullRequest ghpr, boolean isWebhook, String action) {
         if (helper.isProjectDisabled()) {
             logger.log(Level.FINE, "Project is disabled, ignoring pull request");
             return;
@@ -165,7 +165,7 @@ public class GhprbPullRequest {
         // Call update PR with the update PR info and no comment
         updatePR(ghpr, null /*GHIssueComment*/, isWebhook);
         checkSkipBuild();
-        tryBuild();
+        tryBuild(action);
     }
 
     private void checkSkipBuild() {
@@ -188,7 +188,7 @@ public class GhprbPullRequest {
 
         updatePR(null /*GHPullRequest*/, comment, true);
         checkSkipBuild();
-        tryBuild();
+        tryBuild("");
     }
     
     // Reconcile the view of the PR we have locally with the one that was sent to us by GH.
@@ -314,7 +314,7 @@ public class GhprbPullRequest {
         return true;
     }
 
-    private void tryBuild() {
+    private void tryBuild(String action) {
         synchronized (this) {
             if (helper.isProjectDisabled()) {
                 logger.log(Level.FINEST, "Project is disabled, not trying to build");
@@ -352,14 +352,14 @@ public class GhprbPullRequest {
                 }
 
                 logger.log(Level.FINEST, "Running build...");
-                build();
+                build(action);
             }
         }
     }
 
-    private void build() {
+    private void build(String action) {
         GhprbBuilds builder = helper.getBuilds();
-        builder.build(this, triggerSender, commentBody);
+        builder.build(this, triggerSender, commentBody, action);
     }
 
     // returns false if no new commit
