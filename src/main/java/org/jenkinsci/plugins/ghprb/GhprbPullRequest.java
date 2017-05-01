@@ -123,14 +123,7 @@ public class GhprbPullRequest {
         GHUser author = pr.getUser();
         String reponame = repo.getName();
 
-        if (ghprb.isWhitelisted(author)) {
-            setAccepted(true);
-        } else {
-            logger.log(Level.INFO,
-                       "Author of #{0} {1} on {2} not in whitelist!",
-                       new Object[] { id, author.getLogin(), reponame });
-            repo.addComment(id, GhprbTrigger.getDscp().getRequestForTestingPhrase());
-        }
+        setAccepted(true);
 
         logger.log(Level.INFO,
             "Created Pull Request #{0} on {1} by {2} ({3}) updated at: {4} SHA: {5}",
